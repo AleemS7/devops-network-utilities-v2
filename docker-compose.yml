@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  subnet-web:
+    build: ./src/subnet_calculator/web
+    container_name: subnet-web
+    ports:
+      - "5000:5000"
+
+  network-diagnostics-web:
+    build: ./src/network_diagnostics/web
+    container_name: diag-web
+    ports:
+      - "5001:5001"
+
+  frontend:
+    build: ./frontend
+    container_name: network-frontend
+    ports:
+      - "3000:80"
+    environment:
+      REACT_APP_SUBNET_URL: "http://subnet-web:5000"
+      REACT_APP_DIAG_URL: "http://diag-web:5001"

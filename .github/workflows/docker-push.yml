@@ -1,0 +1,47 @@
+name: Build and Push Docker Images to ACR
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Check out repo code
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      # 2. Azure Login
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # 3. ACR Login
+      - name: ACR Login
+        run: |
+          az acr login --name devopsnetworkacr17226
+
+      # 4. Build and push Subnet Calculator Web
+      - name: Build and push subnet-calculator-web
+        run: |
+          docker build -t subnet-calculator-web:latest ./src/subnet_calculator/web
+          docker tag subnet-calculator-web:latest devopsnetworkacr17226.azurecr.io/subnet-calculator-web:latest
+          docker push devopsnetworkacr17226.azurecr.io/subnet-calculator-web:latest
+
+      # 5. Build and push Network Diagnostics Web
+      - name: Build and push network-diagnostics-web
+        run: |
+          docker build -t network-diagnostics-web:latest ./src/network_diagnostics/web
+          docker tag network-diagnostics-web:latest devopsnetworkacr17226.azurecr.io/network-diagnostics-web:latest
+          docker push devopsnetworkacr17226.azurecr.io/network-diagnostics-web:latest
+
+      # 6. Build and push other images (CLI versions)
+      - name: Build and push network-diagnostics-cli
+        run: |
+          docker build -t network-diagnostics-cli:latest ./src/network_diagnostics/cli
+          docker tag network-diagnostics-cli:latest devopsnetworkacr17226.azurecr.io/network-diagnostics-cli:latest
+          docker push devopsnetworkacr17226.azurecr.io/network-diagnostics-cli:latest
