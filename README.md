@@ -34,14 +34,16 @@ The microservices run commands from within the cluster, so ping/traceroute/dns a
 You can run these tools on your local machine if you want the vantage from your own system:
 
 ### Clone this repo:
+```console
 git clone https://github.com/YourUser/devops-network-utilities.git
 cd devops-network-utilities
-
+```
 ### Docker Compose:
 Check docker-compose.yml to see which ports map to your host. Then:
+```console
 docker-compose build
 docker-compose up
-
+```
 Typically, the frontend might be at http://localhost:3000 (depending on how docker-compose.yml is set).
 The subnet or diag containers might run on different local ports.
 
