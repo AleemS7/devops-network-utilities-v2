@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
 
-/**
- * Environment variables (for Docker Compose):
- *   REACT_APP_SUBNET_URL=http://subnet-web:5000
- *   REACT_APP_DIAG_URL=http://diag-web:5001
- * Fallback to localhost if not set.
- */
-const subnetBase = process.env.REACT_APP_SUBNET_URL || 'http://localhost:5000';
-const diagBase   = process.env.REACT_APP_DIAG_URL   || 'http://localhost:5001';
-
 function App() {
+  // Instead of environment variables, we hardcode these paths:
+  const subnetBase = "/subnet";
+  const diagBase   = "/diag";
+
   /************************************************************************
    * Subnet Calculator States
    ************************************************************************/
@@ -136,13 +131,11 @@ function App() {
       return null;
     }
 
-    // Different display logic based on diagMethod
     switch (diagMethod) {
       case 'ping':
       case 'traceroute':
       case 'dns':
         if (diagResult.output) {
-          // Split lines for easier reading
           const lines = diagResult.output.split('\n');
           return (
             <div className="result-box">
@@ -154,7 +147,6 @@ function App() {
           );
         }
         break;
-
       case 'scan':
         if (diagResult.open_ports) {
           return (
@@ -174,7 +166,6 @@ function App() {
         }
         break;
       default:
-        // fallback
         return (
           <div className="result-box">
             <pre>{JSON.stringify(diagResult, null, 2)}</pre>
@@ -182,7 +173,6 @@ function App() {
         );
     }
 
-    // If we didn't handle it above, just show raw JSON
     return (
       <div className="result-box">
         <pre>{JSON.stringify(diagResult, null, 2)}</pre>
@@ -253,7 +243,6 @@ function App() {
             />
           </div>
 
-          {/* Additional fields if port scan is selected */}
           {diagMethod === 'scan' && (
             <>
               <div className="form-row">

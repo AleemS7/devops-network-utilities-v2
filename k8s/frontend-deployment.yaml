@@ -1,0 +1,22 @@
+# k8s/frontend-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: network-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: network-frontend
+  template:
+    metadata:
+      labels:
+        app: network-frontend
+    spec:
+      containers:
+      - name: network-frontend
+        image: devopsnetworkacr17226.azurecr.io/network-frontend:latest
+        ports:
+        - containerPort: 80

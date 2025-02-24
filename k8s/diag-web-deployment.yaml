@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: diag-web-deployment
+  labels:
+    app: diag-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: diag-web
+  template:
+    metadata:
+      labels:
+        app: diag-web
+    spec:
+      containers:
+      - name: diag-web
+        image: devopsnetworkacr17226.azurecr.io/network-diagnostics-web:latest
+        ports:
+        - containerPort: 5001

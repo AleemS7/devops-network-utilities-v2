@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subnet-web-deployment
+  labels:
+    app: subnet-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subnet-web
+  template:
+    metadata:
+      labels:
+        app: subnet-web
+    spec:
+      containers:
+      - name: subnet-web
+        image: devopsnetworkacr17226.azurecr.io/subnet-calculator-web:latest
+        ports:
+        - containerPort: 5000
