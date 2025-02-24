@@ -4,7 +4,7 @@
 [http://48.216.191.222/](http://48.216.191.222/)
 
 ## Introduction & Motivation
-A containerized, cloud-native suite of network tools (subnet calculator, ping, traceroute, DNS, and port scanning) deployed on Azure Kubernetes Service (AKS). Each microservice is Docker-built—Python (Flask) for the backend services and a React frontend—and pushed to Azure Container Registry via a GitHub Actions CI pipeline. Terraform provisions the AKS cluster, and an Nginx Ingress routes traffic to the respective containerized services.
+A containerized suite of network tools (subnet calculator, ping, traceroute, DNS, and port scanning) deployed on Azure Kubernetes Service (AKS). Each microservice is Docker-built—Python (Flask) for the backend services and a React frontend—and pushed to Azure Container Registry via a GitHub Actions CI pipeline. Terraform provisions the AKS cluster, and an Nginx Ingress routes traffic to the respective containerized services.
 
 I started this project as a python execise to incorporate networking fundementals (subnetting, basic diagnostics). I then evolved it in a to learn DevOps concepts. I ended up learning Docker, Kubernetes, Azure, and how to orchestrate multiple microservices. The result is a cloud vantage networking toolkit that can also run locally if desired.
 
