@@ -8,7 +8,6 @@ spec:
   rules:
   - http:
       paths:
-      # Frontend (root path)
       - path: /
         pathType: Prefix
         backend:
@@ -17,7 +16,6 @@ spec:
             port:
               number: 80
 
-      # Subnet Web at /subnet
       - path: /subnet
         pathType: Prefix
         backend:
@@ -26,7 +24,6 @@ spec:
             port:
               number: 5000
 
-      # Diagnostics Web at /diag
       - path: /diag
         pathType: Prefix
         backend:
