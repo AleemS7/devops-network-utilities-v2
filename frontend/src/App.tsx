@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 function App() {
-  // Instead of environment variables, we hardcode these paths:
-  const subnetBase = "/subnet";
-  const diagBase   = "/diag";
-
+  
   /************************************************************************
    * Subnet Calculator States
    ************************************************************************/
@@ -37,9 +34,8 @@ function App() {
     setSubnetLoading(true);
 
     try {
-      const response = await fetch(
-        `${subnetBase}/calculate?ip=${subnetIp}&subnet=${subnetCidr}`
-      );
+      // Directly call "/calculate?ip=...&subnet=..."
+      const response = await fetch(`/calculate?ip=${subnetIp}&subnet=${subnetCidr}`);
       if (!response.ok) {
         const errorData = await response.json();
         setSubnetError(errorData.error || 'Error calculating subnet.');
@@ -66,19 +62,23 @@ function App() {
       let url = '';
       switch (diagMethod) {
         case 'ping':
-          url = `${diagBase}/ping?target=${diagTarget}&count=2`;
+          // "/ping?target=..."
+          url = `/ping?target=${diagTarget}&count=2`;
           break;
         case 'traceroute':
-          url = `${diagBase}/traceroute?target=${diagTarget}`;
+          // "/traceroute?target=..."
+          url = `/traceroute?target=${diagTarget}`;
           break;
         case 'dns':
-          url = `${diagBase}/dns?domain=${diagTarget}`;
+          // "/dns?domain=..."
+          url = `/dns?domain=${diagTarget}`;
           break;
         case 'scan':
-          url = `${diagBase}/scan?host=${diagTarget}&start=${scanStart}&end=${scanEnd}`;
+          // "/scan?host=...&start=...&end=..."
+          url = `/scan?host=${diagTarget}&start=${scanStart}&end=${scanEnd}`;
           break;
         default:
-          url = `${diagBase}/ping?target=${diagTarget}&count=2`; // fallback
+          url = `/ping?target=${diagTarget}&count=2`; // fallback
       }
 
       const response = await fetch(url);
