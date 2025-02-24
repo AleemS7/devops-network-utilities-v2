@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './App.css';
 
 function App() {
-  
   /************************************************************************
    * Subnet Calculator States
    ************************************************************************/
@@ -21,7 +20,6 @@ function App() {
   const [diagError, setDiagError] = useState('');
   const [diagLoading, setDiagLoading] = useState(false);
 
-  // Port scan specific
   const [scanStart, setScanStart] = useState('1');
   const [scanEnd, setScanEnd] = useState('1024');
 
@@ -34,7 +32,6 @@ function App() {
     setSubnetLoading(true);
 
     try {
-      // Directly call "/calculate?ip=...&subnet=..."
       const response = await fetch(`/calculate?ip=${subnetIp}&subnet=${subnetCidr}`);
       if (!response.ok) {
         const errorData = await response.json();
@@ -62,19 +59,15 @@ function App() {
       let url = '';
       switch (diagMethod) {
         case 'ping':
-          // "/ping?target=..."
           url = `/ping?target=${diagTarget}&count=2`;
           break;
         case 'traceroute':
-          // "/traceroute?target=..."
           url = `/traceroute?target=${diagTarget}`;
           break;
         case 'dns':
-          // "/dns?domain=..."
           url = `/dns?domain=${diagTarget}`;
           break;
         case 'scan':
-          // "/scan?host=...&start=...&end=..."
           url = `/scan?host=${diagTarget}&start=${scanStart}&end=${scanEnd}`;
           break;
         default:
@@ -83,7 +76,14 @@ function App() {
 
       const response = await fetch(url);
       if (!response.ok) {
-        const errorData = await response.json();
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch {
+          const textErr = await response.text();
+          setDiagError(textErr || 'Error performing diagnostics.');
+          return;
+        }
         setDiagError(errorData.error || 'Error performing diagnostics.');
       } else {
         const data = await response.json();
@@ -136,6 +136,7 @@ function App() {
       case 'traceroute':
       case 'dns':
         if (diagResult.output) {
+          // Split lines for better display
           const lines = diagResult.output.split('\n');
           return (
             <div className="result-box">
@@ -166,6 +167,7 @@ function App() {
         }
         break;
       default:
+        // fallback: show raw JSON
         return (
           <div className="result-box">
             <pre>{JSON.stringify(diagResult, null, 2)}</pre>
@@ -173,6 +175,7 @@ function App() {
         );
     }
 
+    // If no recognized structure, show raw JSON
     return (
       <div className="result-box">
         <pre>{JSON.stringify(diagResult, null, 2)}</pre>

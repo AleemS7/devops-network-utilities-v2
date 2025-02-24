@@ -50,12 +50,9 @@ def do_traceroute(target):
         return {"error": e.stderr or "Traceroute failed."}
 
 def do_dns_lookup(domain):
-    """
-    Perform a DNS lookup using 'nslookup'.
-    """
     try:
         result = subprocess.run(
-            ["nslookup", domain],
+            ["nslookup", domain, "8.8.8.8"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -66,6 +63,7 @@ def do_dns_lookup(domain):
         return {"error": "'nslookup' command not found. Please install dnsutils."}
     except subprocess.CalledProcessError as e:
         return {"error": e.stderr or "DNS lookup failed."}
+
 
 def do_port_scan(host, start_port, end_port):
     """
