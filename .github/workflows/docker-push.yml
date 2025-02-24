@@ -39,9 +39,11 @@ jobs:
           docker tag network-diagnostics-web:latest devopsnetworkacr17226.azurecr.io/network-diagnostics-web:latest
           docker push devopsnetworkacr17226.azurecr.io/network-diagnostics-web:latest
 
-      # 6. Build and push other images (CLI versions)
-      - name: Build and push network-diagnostics-cli
+      # 5. Build & push frontend
+      - name: Build & push frontend
         run: |
-          docker build -t network-diagnostics-cli:latest ./src/network_diagnostics/cli
-          docker tag network-diagnostics-cli:latest devopsnetworkacr17226.azurecr.io/network-diagnostics-cli:latest
-          docker push devopsnetworkacr17226.azurecr.io/network-diagnostics-cli:latest
+          docker build -t network-frontend:latest ./frontend
+          docker tag network-frontend:latest devopsnetworkacr17226.azurecr.io/network-frontend:latest
+          docker push devopsnetworkacr17226.azurecr.io/network-frontend:latest
+
+      
