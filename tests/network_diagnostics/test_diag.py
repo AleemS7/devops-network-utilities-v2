@@ -19,8 +19,6 @@ def test_ping(mock_run, target, count):
     mock_run.return_value.returncode = 0
 
     result = diag.ping(target, count)
-    # We only check that subprocess was called correctly; 
-    # actual output is system-dependent.
     mock_run.assert_called_once()
 
 @patch("subprocess.run")
