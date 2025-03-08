@@ -1,7 +1,7 @@
 # DevOps Network Utilities Project
 
 ## Public Demo (Cloud Vantage)
-[http://48.216.191.222/](http://48.216.191.222/)
+[http://48.216.191.222/](http://48.216.191.222/) (TEMPORARILY DOWN FOR COST SAVING)
 
 ## Introduction & Motivation
 A containerized suite of network tools (subnet calculator, ping, traceroute, DNS, and port scanning) deployed on Azure Kubernetes Service (AKS). Each microservice is Docker-built—Python (Flask) for the backend services and a React frontend—and pushed to Azure Container Registry via a GitHub Actions CI pipeline. Terraform provisions the AKS cluster, and an Nginx Ingress routes traffic to the respective containerized services.
